@@ -1,0 +1,77 @@
+{
+  "name": "repro-eslint-knip-monorepo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/repro-eslint-knip-monorepo/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/repro-eslint-knip-monorepo",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/repro-eslint-knip-monorepo/src/main.ts",
+        "tsConfig": "apps/repro-eslint-knip-monorepo/tsconfig.app.json",
+        "assets": ["apps/repro-eslint-knip-monorepo/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "repro-eslint-knip-monorepo:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "repro-eslint-knip-monorepo:build:development"
+        },
+        "production": {
+          "buildTarget": "repro-eslint-knip-monorepo:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/repro-eslint-knip-monorepo/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/repro-eslint-knip-monorepo/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
