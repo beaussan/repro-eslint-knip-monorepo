@@ -2,7 +2,9 @@
   "name": "@repro-eslint-knip-monorepo/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "knip": "knip"
+  },
   "private": true,
   "dependencies": {
     "axios": "^1.0.0",
